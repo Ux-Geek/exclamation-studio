@@ -106,89 +106,95 @@ export const Contact: React.FC = () => {
   }, [intakeOpen]);
 
   return (
-    <section className="cta" id="contact">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="cta-shell reveal" ref={shellRef}>
-          <div className="cta-left pr-4">
-            <p className="eyebrow tracking-[0.12em] uppercase text-xs text-muted mb-4">Availability</p>
-            <h2 className="cta-title">A small number of projects.<br />High signal only.</h2>
-            <p className="cta-sub">If you’re building for the long term, we’ll move quickly once the fit is clear.</p>
+    <section className="cta w-full" id="contact">
+      <div className="unfold w-full">
+        <div className="paper-edge" aria-hidden="true"></div>
+        <div className="fold-hinge" aria-hidden="true"></div>
+        <div className="fold-seam" aria-hidden="true"></div>
+        <div className="max-w-[1200px] mx-auto px-6 container relative z-10 py-24">
+          <div className="cta-shell reveal" ref={shellRef}>
+            <div className="cta-left pr-4">
+              <p className="eyebrow tracking-[0.12em] uppercase text-xs text-muted mb-4">Availability</p>
+              <h2 className="cta-title">A small number of projects.<br />High signal only.</h2>
+              <p className="cta-sub">If you’re building for the long term, we’ll move quickly once the fit is clear.</p>
 
-            <div className="cta-actions">
-              <a
-                className="btn primary touch-bloom font-medium"
-                href="mailto:hello@exclamationstudios.com"
-                ref={emailBtnRef as React.RefObject<HTMLAnchorElement>}
-              >
-                <span>Email the studio</span>
-              </a>
-              <button
-                className="btn ghost touch-bloom font-medium"
-                type="button"
-                onClick={() => setIntakeOpen(!intakeOpen)}
-                ref={openIntakeBtnRef as React.RefObject<HTMLButtonElement>}
-              >
-                <span>{intakeOpen ? "Close intake" : "Open intake"}</span>
-              </button>
-            </div>
-
-            <p className="cta-micro">Response within 48 hours. No decks. No theatre.</p>
-          </div>
-
-          {/* Unfold / Collapse Intake */}
-          <div className="cta-right">
-            <div className="intake-card touch-bloom group">
-              <div className="intake-top">
-                <div className="intake-title">Quick Intake</div>
-                <div className="intake-hint">Unfolds. Takes 30 seconds.</div>
+              <div className="cta-actions">
+                <a
+                  className="btn primary touch-bloom font-medium"
+                  href="mailto:hello@exclamationstudios.com"
+                  ref={emailBtnRef as React.RefObject<HTMLAnchorElement>}
+                >
+                  <span>Email the studio</span>
+                  <span className="spark" aria-hidden="true"></span>
+                </a>
+                <button
+                  className="btn ghost touch-bloom font-medium"
+                  type="button"
+                  onClick={() => setIntakeOpen(!intakeOpen)}
+                  ref={openIntakeBtnRef as React.RefObject<HTMLButtonElement>}
+                >
+                  <span>{intakeOpen ? "Close intake" : "Open intake"}</span>
+                </button>
               </div>
 
-              <div className="intake-body" ref={intakeBodyRef} style={{ height: 0 }}>
-                <div className="intake-body-content">
-                  <div className="intake-row">
-                    <input className="w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all" placeholder="Name" />
-                    <input className="w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all" placeholder="Company / Role" />
+              <p className="cta-micro">Response within 48 hours. No decks. No theatre.</p>
+            </div>
+
+            {/* Unfold / Collapse Intake */}
+            <div className="cta-right">
+              <div className="intake-card touch-bloom group">
+                <div className="intake-top">
+                  <div className="intake-title">Quick Intake</div>
+                  <div className="intake-hint">Unfolds. Takes 30 seconds.</div>
+                </div>
+
+                <div className="intake-body" ref={intakeBodyRef} style={{ height: 0 }}>
+                  <div className="intake-body-content">
+                    <div className="intake-row">
+                      <input className="w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all" placeholder="Name" />
+                      <input className="w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all" placeholder="Company / Role" />
+                    </div>
+                    <div className="intake-row">
+                      <select className="appearance-none w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all">
+                        <option>Budget Range</option>
+                        <option>£2k–£5k</option>
+                        <option>£5k–£15k</option>
+                        <option>£15k+</option>
+                      </select>
+                      <select className="appearance-none w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all">
+                        <option>Timeline</option>
+                        <option>2–4 weeks</option>
+                        <option>4–8 weeks</option>
+                        <option>8+ weeks</option>
+                      </select>
+                    </div>
+                    <textarea
+                      className="w-full min-h-[100px] p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all resize-y"
+                      placeholder="Project overview (short)"
+                    />
+                    <button
+                      className="btn primary touch-bloom w-full font-medium"
+                      type="button"
+                      ref={sendBtnRef as React.RefObject<HTMLButtonElement>}
+                    >
+                      <span>Send</span>
+                    </button>
                   </div>
-                  <div className="intake-row">
-                    <select className="appearance-none w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all">
-                      <option>Budget Range</option>
-                      <option>£2k–£5k</option>
-                      <option>£5k–£15k</option>
-                      <option>£15k+</option>
-                    </select>
-                    <select className="appearance-none w-full p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all">
-                      <option>Timeline</option>
-                      <option>2–4 weeks</option>
-                      <option>4–8 weeks</option>
-                      <option>8+ weeks</option>
-                    </select>
-                  </div>
-                  <textarea
-                    className="w-full min-h-[100px] p-4 rounded-xl border border-stroke bg-fg/[0.02] text-fg outline-none focus:border-fg/25 focus:ring-4 focus:ring-fg/[0.06] transition-all resize-y"
-                    placeholder="Project overview (short)"
-                  />
-                  <button
-                    className="btn primary touch-bloom w-full font-medium"
-                    type="button"
-                    ref={sendBtnRef as React.RefObject<HTMLButtonElement>}
-                  >
-                    <span>Send</span>
-                  </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* FAQs */}
-        <div className="faq reveal">
-          <div className="section-head tight mb-6">
-            <h2 className="text-2xl font-medium tracking-tight mb-2">FAQs</h2>
-            <p className="text-muted leading-relaxed">Clean answers. No fluff.</p>
+          {/* FAQs */}
+          <div className="faq reveal">
+            <div className="section-head tight mb-6">
+              <h2 className="text-2xl font-medium tracking-tight mb-2">FAQs</h2>
+              <p className="text-muted leading-relaxed">Clean answers. No fluff.</p>
+            </div>
+            <Faqs />
           </div>
-          <Faqs />
-        </div>
 
+        </div>
       </div>
     </section>
   );

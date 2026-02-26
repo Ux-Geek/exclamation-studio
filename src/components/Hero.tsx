@@ -78,39 +78,45 @@ export const Hero: React.FC = () => {
   }, []);
 
   return (
-    <section ref={heroRef} className="hero-section relative min-h-screen flex items-center pt-18 overflow-clip">
-      <div className="hero-aura" aria-hidden="true" />
-      <div className="max-w-[1200px] mx-auto px-6 w-full relative z-10">
-        <p className="eyebrow reveal mb-4 text-muted tracking-[0.12em] uppercase text-xs">
-          Cultural Design Partner
-        </p>
+    <section ref={heroRef} className="hero-section relative w-full pt-4">
+      <div className="unfold relative min-h-[calc(100vh-2rem)] flex items-center w-full">
+        <div className="paper-edge" aria-hidden="true"></div>
+        <div className="fold-hinge" aria-hidden="true"></div>
+        <div className="fold-seam" aria-hidden="true"></div>
+        <div className="hero-aura" aria-hidden="true" />
 
-        <div className="hero-kinetic reveal" data-hero-kinetic ref={kineticRef}>
-          <div className="hero-line hero-title-interactive font-medium" data-line>Design that reads like strategy.</div>
-          <div className="hero-line hero-title-interactive font-medium" data-line>Looks like restraint.</div>
-          <div className="hero-line hero-title-interactive font-medium" data-line>Ships like product.</div>
+        <div className="max-w-[1200px] mx-auto px-6 w-full relative z-10 container py-24">
+          <p className="eyebrow reveal mb-4 text-muted tracking-[0.12em] uppercase text-xs">
+            Cultural Design Partner
+          </p>
+
+          <div className="hero-kinetic reveal" data-hero-kinetic ref={kineticRef}>
+            <div className="hero-line hero-title-interactive font-medium" data-line>Design that reads like strategy.</div>
+            <div className="hero-line hero-title-interactive font-medium" data-line>Looks like restraint.</div>
+            <div className="hero-line hero-title-interactive font-medium" data-line>Ships like product.</div>
+          </div>
+
+          <p className="hero-sub reveal mt-4 max-w-[58ch] text-muted text-lg leading-relaxed">
+            We build brand systems and digital experiences for teams with long timelines.
+          </p>
+
+          <div className="hero-actions reveal mt-7 flex items-center gap-4">
+            <a
+              ref={btnRef as React.RefObject<HTMLAnchorElement>}
+              className="btn touch-bloom font-medium"
+              href="#contact"
+            >
+              <span>Start a project</span>
+            </a>
+            <a className="text-fg/80 border-b border-fg/25 pb-0.5 hover:text-fg transition-opacity ml-2" href="#work">
+              View selected work
+            </a>
+          </div>
+
+          <p className="micro reveal mt-7 text-fg/55 text-[13px]">
+            Brand Systems • Digital Products • Campaign Direction • Motion & 3D
+          </p>
         </div>
-
-        <p className="hero-sub reveal mt-4 max-w-[58ch] text-muted text-lg leading-relaxed">
-          We build brand systems and digital experiences for teams with long timelines.
-        </p>
-
-        <div className="hero-actions reveal mt-7 flex items-center gap-4">
-          <a
-            ref={btnRef as React.RefObject<HTMLAnchorElement>}
-            className="btn touch-bloom font-medium"
-            href="#contact"
-          >
-            <span>Start a project</span>
-          </a>
-          <a className="text-fg/80 border-b border-fg/25 pb-0.5 hover:text-fg transition-opacity ml-2" href="#work">
-            View selected work
-          </a>
-        </div>
-
-        <p className="micro reveal mt-7 text-fg/55 text-[13px]">
-          Brand Systems • Digital Products • Campaign Direction • Motion & 3D
-        </p>
       </div>
     </section>
   );

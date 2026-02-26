@@ -12,10 +12,12 @@ import { Contact } from './components/Contact';
 import { useReveal } from './hooks/useReveal';
 import { useUnfold } from './hooks/useUnfold';
 import { AnimatePresence } from 'motion/react';
+import gsap from 'gsap';
 
 export default function App() {
   const [activeProject, setActiveProject] = React.useState<any>(null);
   const footerRef = useRef<HTMLElement>(null);
+  const footerParallaxRef = useRef<HTMLDivElement>(null);
   useReveal();
   useUnfold();
 
@@ -47,23 +49,89 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    // Footer light reveal follows cursor
-    const footer = footerRef.current;
-    if (!footer) return;
+    // Footer Stage: violet cursor-follow + subtle type parallax
+    const footerStage = footerRef.current;
+    if (!footerStage) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const r = footer.getBoundingClientRect();
+    const parallaxWords = footerParallaxRef.current?.querySelectorAll(".footer-word, .footer-punct");
+
+    const rootMouse = (e: MouseEvent) => {
+      const r = footerStage.getBoundingClientRect();
       const fx = ((e.clientX - r.left) / r.width) * 100;
       const fy = ((e.clientY - r.top) / r.height) * 100;
-      footer.style.setProperty("--fx", `${fx}%`);
-      footer.style.setProperty("--fy", `${fy}%`);
+      footerStage.style.setProperty("--fx", `${fx}%`);
+      footerStage.style.setProperty("--fy", `${fy}%`);
+      
+      const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+
+      if (parallaxWords) {
+        parallaxWords.forEach((el, i) => {
+          const depth = (i + 1) * 4; // keep subtle
+          gsap.to(el, {
+            x: nx * depth,
+            y: ny * (depth * 0.5),
+            duration: 0.6,
+            ease: "power2.out"
+          });
+        });
+      }
+    };
+    
+    const rootTouch = (e: TouchEvent) => {
+      if (!e.touches?.length) return;
+      const t = e.touches[0];
+      const r = footerStage.getBoundingClientRect();
+      const tx = ((t.clientX - r.left) / r.width) * 100;
+      const ty = ((t.clientY - r.top) / r.height) * 100;
+      footerStage.style.setProperty("--fx", `${tx}%`);
+      footerStage.style.setProperty("--fy", `${ty}%`);
     };
 
-    footer.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => footer.removeEventListener("mousemove", handleMouseMove);
+    footerStage.addEventListener("mousemove", rootMouse, { passive: true });
+    footerStage.addEventListener("touchmove", rootTouch, { passive: true });
+    
+    // Reveal trigger
+    if (footerParallaxRef.current) {
+      gsap.fromTo(
+        footerStage.querySelectorAll(".footer-big-line"),
+        { y: 28, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          stagger: 0.10,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerStage,
+            start: "top 70%"
+          }
+        }
+      );
+
+      gsap.fromTo(
+        footerStage.querySelectorAll(".footer-actions, .footer-meta"),
+        { y: 10, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: footerStage,
+            start: "top 55%"
+          }
+        }
+      );
+    }
+
+    return () => {
+      footerStage.removeEventListener("mousemove", rootMouse);
+      footerStage.removeEventListener("touchmove", rootTouch);
+    };
   }, []);
 
   return (
@@ -94,28 +162,30 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <footer className="footer2 mt-12 bg-bg border-stroke z-10" ref={footerRef}>
-        <div className="footer-light" aria-hidden="true"></div>
+      <footer className="footer-stage mt-12 z-10" id="footer" ref={footerRef}>
+        <div className="footer-violet" aria-hidden="true"></div>
+        <div className="footer-grain" aria-hidden="true"></div>
 
-        <div className="max-w-[1200px] mx-auto px-6 footer2-inner">
-          <div className="footer2-left text-left">
-            <div className="footer2-mark">
-              <span className="footer-dot" aria-hidden="true"></span>
-              <span className="footer-name text-lg font-medium tracking-tight">Exclamation Studios</span>
+        <div className="max-w-[1200px] mx-auto px-6 footer-stage-inner w-full">
+          <div className="footer-big" ref={footerParallaxRef}>
+            <div className="footer-big-line">
+              <span className="footer-word">EXCLAMATION</span>
             </div>
-            <p className="footer2-sub">Cultural design partner. Systems over noise.</p>
+            <div className="footer-big-line">
+              <span className="footer-word">STUDIOS</span><span className="footer-punct">!</span>
+            </div>
           </div>
 
-          <div className="footer2-right">
-            <a href="#work" className="touch-bloom">Work</a>
-            <a href="#about" className="touch-bloom">About</a>
-            <a href="mailto:hello@exclamationstudios.com" className="touch-bloom">Email</a>
+          <div className="footer-actions">
+            <a className="footer-link touch-bloom" href="#work">Work</a>
+            <a className="footer-link touch-bloom" href="#about">About</a>
+            <a className="footer-link footer-link-strong touch-bloom" href="mailto:hello@exclamationstudios.com">Email</a>
           </div>
-        </div>
 
-        <div className="max-w-[1200px] mx-auto px-6 footer2-bottom mt-16 text-muted">
-          <span>© <span id="year">{new Date().getFullYear()}</span> Exclamation Studios</span>
-          <span className="footer2-sig tracking-wide">Built with restraint. Signed with “!”</span>
+          <div className="footer-meta">
+            <span>© <span id="year">{new Date().getFullYear()}</span> Exclamation Studios</span>
+            <span className="footer-meta-right">Built with restraint. Accented with violet.</span>
+          </div>
         </div>
       </footer>
     </div>

@@ -69,39 +69,44 @@ const Folds = () => {
 
 export const About: React.FC = () => {
   return (
-    <section className="py-24 md:py-32 border-t border-stroke about" id="about">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="about-grid">
+    <section className="about w-full" id="about">
+      <div className="unfold w-full">
+        <div className="paper-edge" aria-hidden="true"></div>
+        <div className="fold-hinge" aria-hidden="true"></div>
+        <div className="fold-seam" aria-hidden="true"></div>
+        <div className="max-w-[1200px] mx-auto px-6 container relative z-10 py-24 md:py-32">
+          <div className="about-grid">
 
-          {/* BIG exclamation motif */}
-          <div className="about-mark reveal">
-            <div className="excl-wrap flex items-center justify-center">
-              <div className="excl font-medium">!</div>
-              <div className="excl-glow" aria-hidden="true"></div>
+            {/* BIG exclamation motif */}
+            <div className="about-mark reveal">
+              <div className="excl-wrap flex items-center justify-center">
+                <div className="excl font-medium">!</div>
+                <div className="excl-glow" aria-hidden="true"></div>
+              </div>
+              <p className="about-mark-note">Restraint is the surface. Systems are the engine.</p>
             </div>
-            <p className="about-mark-note">Restraint is the surface. Systems are the engine.</p>
+
+            {/* Unfolding philosophy */}
+            <div className="about-body">
+              <div className="section-head tight reveal">
+                <h2 className="text-2xl font-medium tracking-tight">Studio Philosophy</h2>
+                <p className="text-muted leading-relaxed max-w-[50ch]">
+                  We don’t sell aesthetics. We build languages that scale across product, marketing, and time.
+                </p>
+              </div>
+
+              <Folds />
+
+              <div className="founder-note reveal">
+                <div className="label">Founder Note</div>
+                <p>
+                  Exclamation exists for teams building beyond launch week.
+                  We stay selective so the partnership stays serious — and the output stays sharp.
+                </p>
+              </div>
+            </div>
+
           </div>
-
-          {/* Unfolding philosophy */}
-          <div className="about-body">
-            <div className="section-head tight reveal">
-              <h2 className="text-2xl font-medium tracking-tight">Studio Philosophy</h2>
-              <p className="text-muted leading-relaxed max-w-[50ch]">
-                We don’t sell aesthetics. We build languages that scale across product, marketing, and time.
-              </p>
-            </div>
-
-            <Folds />
-
-            <div className="founder-note reveal">
-              <div className="label">Founder Note</div>
-              <p>
-                Exclamation exists for teams building beyond launch week.
-                We stay selective so the partnership stays serious — and the output stays sharp.
-              </p>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>

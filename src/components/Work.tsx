@@ -28,7 +28,7 @@ export const Work: React.FC<WorkProps> = ({ onOpenProject }) => {
               layoutId={`project-${work.id}`}
               onClick={(e) => { e.preventDefault(); onOpenProject(work); }}
               href="#"
-              className="work-item reveal flex justify-between items-center p-5 border border-stroke rounded-2xl bg-fg/[0.02] hover:bg-fg/[0.05] hover:border-fg/20 hover:-translate-y-0.5 transition-all duration-200"
+              className="work-item touch-bloom reveal flex justify-between items-center p-5 border border-stroke rounded-2xl bg-fg/[0.02] hover:bg-fg/[0.05] hover:border-fg/20 hover:-translate-y-0.5 transition-all duration-200"
             >
               <motion.span layoutId={`title-${work.id}`} className="work-title font-medium">{work.title}</motion.span>
               <motion.span layoutId={`meta-${work.id}`} className="work-meta text-muted text-sm">{work.meta}</motion.span>

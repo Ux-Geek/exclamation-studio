@@ -12,15 +12,15 @@ export const Capabilities: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">
-          <article className="card reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
+          <article className="card touch-bloom reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
             <h3 className="text-base font-medium mb-2">Brand Systems</h3>
             <p className="text-muted leading-relaxed">Naming, identity, typography, guidelines, modular assets.</p>
           </article>
-          <article className="card reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
+          <article className="card touch-bloom reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
             <h3 className="text-base font-medium mb-2">Digital Design</h3>
             <p className="text-muted leading-relaxed">Websites, product UI, design systems, responsive frameworks.</p>
           </article>
-          <article className="card reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
+          <article className="card touch-bloom reveal border border-stroke rounded-[18px] p-6 bg-fg/[0.03]">
             <h3 className="text-base font-medium mb-2">Motion & 3D</h3>
             <p className="text-muted leading-relaxed">Micro-animations, interactive scenes, real-time visuals.</p>
           </article>

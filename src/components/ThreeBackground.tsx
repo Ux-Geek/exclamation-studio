@@ -4,11 +4,22 @@ import * as THREE from 'three';
 export const ThreeBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    if (!canvasRef.current) return;
+  const [isLiteMode, setIsLiteMode] = React.useState(false);
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return;
+  useEffect(() => {
+    const handleLiteModeCheck = () => {
+      const isMobile = window.innerWidth < 768;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setIsLiteMode(isMobile || reduceMotion);
+    };
+
+    handleLiteModeCheck();
+    window.addEventListener('resize', handleLiteModeCheck);
+    return () => window.removeEventListener('resize', handleLiteModeCheck);
+  }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current || isLiteMode) return;
 
     const renderer = new THREE.WebGLRenderer({ 
       canvas: canvasRef.current, 
@@ -82,9 +93,11 @@ export const ThreeBackground: React.FC = () => {
     animate();
 
     const handleResize = () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+      if (window.innerWidth >= 768) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      }
     };
     window.addEventListener("resize", handleResize);
 
@@ -96,7 +109,16 @@ export const ThreeBackground: React.FC = () => {
       geo.dispose();
       mat.dispose();
     };
-  }, []);
+  }, [isLiteMode]);
+
+  if (isLiteMode) {
+    return (
+      <div 
+        className="fixed inset-0 w-full h-full z-0 opacity-40 pointer-events-none bg-gradient-to-tr from-[#0b0c0f] via-[#1a1b23] to-[#252836]"
+        aria-hidden="true"
+      />
+    );
+  }
 
   return (
     <canvas 

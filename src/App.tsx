@@ -13,6 +13,7 @@ import { useReveal } from './hooks/useReveal';
 import { useUnfold } from './hooks/useUnfold';
 import { AnimatePresence } from 'motion/react';
 import gsap from 'gsap';
+import logoIcon from './assets/eexxxccllaamm 66copy.svg';
 
 export default function App() {
   const [activeProject, setActiveProject] = React.useState<any>(null);
@@ -64,7 +65,7 @@ export default function App() {
       const fy = ((e.clientY - r.top) / r.height) * 100;
       footerStage.style.setProperty("--fx", `${fx}%`);
       footerStage.style.setProperty("--fy", `${fy}%`);
-      
+
       const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
       const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
 
@@ -80,7 +81,7 @@ export default function App() {
         });
       }
     };
-    
+
     const rootTouch = (e: TouchEvent) => {
       if (!e.touches?.length) return;
       const t = e.touches[0];
@@ -93,7 +94,7 @@ export default function App() {
 
     footerStage.addEventListener("mousemove", rootMouse, { passive: true });
     footerStage.addEventListener("touchmove", rootTouch, { passive: true });
-    
+
     // Reveal trigger
     if (footerParallaxRef.current) {
       gsap.fromTo(
@@ -172,7 +173,10 @@ export default function App() {
               <span className="footer-word">EXCLAMATION</span>
             </div>
             <div className="footer-big-line">
-              <span className="footer-word">STUDIOS</span><span className="footer-punct">!</span>
+              <span className="footer-word">STUDIOS</span>
+              <span className="footer-punct">
+                <img src={logoIcon} alt="!" className="inline-block h-[1em] w-auto -translate-y-[0.1em]" style={{ fill: 'currentColor', filter: 'invert(50%) sepia(85%) saturate(300%) hue-rotate(220deg) opacity(0.7)' }} />
+              </span>
             </div>
           </div>
 

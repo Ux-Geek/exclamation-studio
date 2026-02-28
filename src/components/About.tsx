@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
+import logoIcon from '../assets/eexxxccllaamm 66copy.svg';
 
 const Folds = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -80,7 +81,7 @@ export const About: React.FC = () => {
             {/* BIG exclamation motif */}
             <div className="about-mark reveal">
               <div className="excl-wrap flex items-center justify-center">
-                <div className="excl font-normal">!</div>
+                <img src={logoIcon} alt="!" className="w-[180px] h-auto opacity-80" />
                 <div className="excl-glow" aria-hidden="true"></div>
               </div>
               <p className="about-mark-note">Restraint is the surface. Systems are the engine.</p>

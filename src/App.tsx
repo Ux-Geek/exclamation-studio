@@ -175,7 +175,7 @@ export default function App() {
             <div className="footer-big-line">
               <span className="footer-word">STUDIOS</span>
               <span className="footer-punct">
-                <img src={logoIcon} alt="!" className="inline-block h-[1em] w-auto -translate-y-[0.1em]" style={{ fill: 'currentColor', filter: 'invert(50%) sepia(85%) saturate(300%) hue-rotate(220deg) opacity(0.7)' }} />
+                <img src={logoIcon} alt="!" className="inline-block h-[1em] w-auto -translate-y-[0.1em]" style={{ fill: 'currentColor', filter: ' opacity(0.7)' }} />
               </span>
             </div>
           </div>

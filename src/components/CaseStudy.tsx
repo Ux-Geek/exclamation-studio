@@ -39,7 +39,7 @@ export const CaseStudy: React.FC<CaseStudyProps> = ({ project, onClose }) => {
                     <motion.div layoutId={`meta-${project.id}`} className="text-muted tracking-[0.1em] uppercase text-xs mb-4">
                         {project.meta}
                     </motion.div>
-                    <motion.h2 layoutId={`title-${project.id}`} className="text-[clamp(32px,5vw,64px)] font-medium tracking-tight mb-8">
+                    <motion.h2 layoutId={`title-${project.id}`} className="text-[clamp(32px,5vw,64px)] font-normal tracking-tight mb-8">
                         {project.title}
                     </motion.h2>
 

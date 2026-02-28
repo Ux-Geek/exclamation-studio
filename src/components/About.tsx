@@ -80,7 +80,7 @@ export const About: React.FC = () => {
             {/* BIG exclamation motif */}
             <div className="about-mark reveal">
               <div className="excl-wrap flex items-center justify-center">
-                <div className="excl font-medium">!</div>
+                <div className="excl font-normal">!</div>
                 <div className="excl-glow" aria-hidden="true"></div>
               </div>
               <p className="about-mark-note">Restraint is the surface. Systems are the engine.</p>
@@ -89,7 +89,7 @@ export const About: React.FC = () => {
             {/* Unfolding philosophy */}
             <div className="about-body">
               <div className="section-head tight reveal">
-                <h2 className="text-2xl font-medium tracking-tight">Studio Philosophy</h2>
+                <h2 className="text-2xl font-normal tracking-tight">Studio Philosophy</h2>
                 <p className="text-muted leading-relaxed max-w-[50ch]">
                   We don’t sell aesthetics. We build languages that scale across product, marketing, and time.
                 </p>

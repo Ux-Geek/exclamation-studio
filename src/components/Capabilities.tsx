@@ -31,7 +31,7 @@ export const Capabilities: React.FC = () => {
         <div className="max-w-[1200px] mx-auto px-6 container relative z-10 py-24 md:py-32">
           <div className="cap-wrap border-stroke">
             <div className="section-head tight reveal mb-11">
-              <h2 className="text-2xl tracking-tight font-medium mb-2">Capabilities</h2>
+              <h2 className="text-2xl tracking-tight font-normal mb-2">Capabilities</h2>
               <p className="text-muted max-w-[60ch] leading-relaxed">From positioning to execution — so the work stays coherent as you grow.</p>
             </div>
 

@@ -91,9 +91,9 @@ export const Hero: React.FC = () => {
           </p>
 
           <div className="hero-kinetic reveal" data-hero-kinetic ref={kineticRef}>
-            <div className="hero-line hero-title-interactive font-medium" data-line>Design that reads like strategy.</div>
-            <div className="hero-line hero-title-interactive font-medium" data-line>Looks like restraint.</div>
-            <div className="hero-line hero-title-interactive font-medium" data-line>Ships like product.</div>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Design that reads like strategy.</div>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Looks like restraint.</div>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Ships like product.</div>
           </div>
 
           <p className="hero-sub reveal mt-4 max-w-[58ch] text-muted text-lg leading-relaxed">

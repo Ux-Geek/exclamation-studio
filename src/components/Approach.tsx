@@ -63,7 +63,7 @@ export const Approach: React.FC = () => {
                     </div>
                     <div className="md:pl-10">
                         <p className="eyebrow reveal mb-4 text-muted tracking-[0.12em] uppercase text-xs">Our Process</p>
-                        <h2 className="text-[clamp(32px,4vw,48px)] tracking-tight font-medium leading-[1.1] mb-6 reveal">
+                        <h2 className="text-[clamp(32px,4vw,48px)] tracking-tight font-normal leading-[1.1] mb-6 reveal">
                             An approach built<br />for endurance.
                         </h2>
                         <p className="text-muted text-lg max-w-[40ch] reveal">
@@ -78,7 +78,7 @@ export const Approach: React.FC = () => {
                         {steps.map((step, i) => (
                             <div key={i} className="reveal">
                                 <div className="text-muted mb-4 font-mono text-sm">0{i + 1}</div>
-                                <h3 className="text-2xl font-medium mb-3">{step.title}</h3>
+                                <h3 className="text-2xl font-normal mb-3">{step.title}</h3>
                                 <p className="text-muted text-lg max-w-[35ch]">{step.desc}</p>
                             </div>
                         ))}

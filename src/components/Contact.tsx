@@ -188,7 +188,7 @@ export const Contact: React.FC = () => {
           {/* FAQs */}
           <div className="faq reveal">
             <div className="section-head tight mb-6">
-              <h2 className="text-2xl font-medium tracking-tight mb-2">FAQs</h2>
+              <h2 className="text-2xl font-normal tracking-tight mb-2">FAQs</h2>
               <p className="text-muted leading-relaxed">Clean answers. No fluff.</p>
             </div>
             <Faqs />

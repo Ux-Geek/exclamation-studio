@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
     <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-bg/55 border-b border-stroke">
       <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
         <div className="brand opacity-90 flex items-center">
-          <img src={logoMark} alt="Exclamation" className="h-7 w-auto" />
+          <img src={logoMark} alt="Exclamation" className="h-14 w-auto -ml-4" />
         </div>
         <nav className="flex items-center gap-6">
           <a href="#work" className="text-fg/80 hover:text-fg transition-opacity">Work</a>

@@ -174,8 +174,8 @@ export default function App() {
             </div>
             <div className="footer-big-line">
               <span className="footer-word">STUDIOS</span>
-              <span className="footer-punct">
-                <img src={logoIcon} alt="!" className="inline-block h-[1em] w-auto -translate-y-[0.1em]" style={{ fill: 'currentColor', filter: ' opacity(0.7)' }} />
+              <span className="footer-punct translate-y-2 inline-flex items-center">
+                <img src={logoIcon} alt="!" className="h-[1.8em] w-auto -ml-8 -mt-10" style={{ fill: 'currentColor' }} />
               </span>
             </div>
           </div>

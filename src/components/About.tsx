@@ -81,7 +81,7 @@ export const About: React.FC = () => {
             {/* BIG exclamation motif */}
             <div className="about-mark reveal">
               <div className="excl-wrap flex items-center justify-center">
-                <img src={logoIcon} alt="!" className="w-[180px] h-auto opacity-80" />
+                <img src={logoIcon} alt="!" className="w-[360px] h-auto opacity-80" />
                 <div className="excl-glow" aria-hidden="true"></div>
               </div>
               <p className="about-mark-note">Restraint is the surface. Systems are the engine.</p>

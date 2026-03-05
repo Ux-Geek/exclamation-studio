@@ -1,139 +1,121 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { DiamondButton } from './DiamondButton';
+import React, { useEffect, useRef } from 'react';
+import { useMagnetic } from '../hooks/useMagnetic';
+import gsap from 'gsap';
 
 export const Hero: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
+  const btnRef = useMagnetic(0.22);
+  const heroRef = useRef<HTMLElement>(null);
+  const kineticRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
 
-  const ww3Scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const ww3Y = useTransform(scrollYProgress, [0, 1], ["0vh", "49vh"]);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
 
-  const slideUpVariants = {
-    initial: { y: "100%" },
-    animate: { y: "0%" }
-  };
+    const setVars = (x: number, y: number) => {
+      const px = (x / window.innerWidth) * 100;
+      const py = (y / window.innerHeight) * 100;
 
-  const ww3Variants = {
-    initial: { y: 300, opacity: 1 },
-    animate: { y: 0, opacity: 1 }
-  };
+      hero.style.setProperty("--px", `${px}%`);
+      hero.style.setProperty("--py", `${py}%`);
 
-  const staggerContainer = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
+      hero.style.setProperty("--mx", `${(x - window.innerWidth / 2) * 0.02}px`);
+      hero.style.setProperty("--my", `${(y - window.innerHeight / 2) * 0.02}px`);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => setVars(e.clientX, e.clientY);
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches?.length) return;
+      setVars(e.touches[0].clientX, e.touches[0].clientY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    // Kinetic lines GSAP logic
+    const lines = kineticRef.current?.querySelectorAll("[data-line]");
+    let hx = 0, hy = 0;
+    const kineticMouseMove = (e: MouseEvent) => {
+      hx = (e.clientX / window.innerWidth) * 2 - 1;
+      hy = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener("mousemove", kineticMouseMove, { passive: true });
+
+    const kineticTicker = () => {
+      if (lines) {
+        lines.forEach((line, i) => {
+          const depth = (i + 1) * 6;
+          gsap.to(line, {
+            x: hx * depth,
+            y: hy * (depth * 0.35),
+            duration: 0.6,
+            ease: "power2.out"
+          });
+        });
       }
+    };
+    gsap.ticker.add(kineticTicker);
+
+    if (lines) {
+      gsap.fromTo(lines, { y: 14, opacity: 0 }, {
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.08,
+        ease: "power3.out",
+        delay: 0.05
+      });
     }
-  };
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("mousemove", kineticMouseMove);
+      gsap.ticker.remove(kineticTicker);
+    };
+  }, []);
 
   return (
-    <section ref={containerRef} className="hero-section relative w-full h-[98vh] overflow-hidden bg-bg">
-      {/* Background Graphic Text Parallax */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none flex items-center justify-center -z-10 overflow-hidden"
-        style={{ scale: ww3Scale, y: ww3Y }}
-      >
-        <motion.div
-          variants={ww3Variants}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 1.5, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-[clamp(6rem,15vw,20rem)] font-serif whitespace-nowrap opacity-[0.03] select-none text-fg"
-        >
-          EXCLAMATION
-        </motion.div>
-      </motion.div>
-
-      <div className="relative h-full flex items-center w-full">
+    <section ref={heroRef} className="hero-section relative w-full pt-4">
+      <div className="unfold relative min-h-[calc(100vh-2rem)] flex items-center w-full">
+        <div className="paper-edge" aria-hidden="true"></div>
+        <div className="fold-hinge" aria-hidden="true"></div>
+        <div className="fold-seam" aria-hidden="true"></div>
         <div className="hero-aura" aria-hidden="true" />
 
-        <div className="max-w-[1200px] mx-auto px-6 w-full relative z-10 pt-24">
-          <motion.div
-            initial={{ opacity: 0, filter: "blur(8px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-            className="mb-4"
-          >
-            <p className="inline-block text-muted tracking-[0.12em] uppercase text-xs">
-              Cultural Design Partner
-            </p>
-          </motion.div>
+        <div className="max-w-[1200px] mx-auto px-6 w-full relative z-10 container py-24">
+          <p className="eyebrow reveal mb-4 text-muted tracking-[0.12em] uppercase text-xs">
+            Cultural Design Partner
+          </p>
 
-          <motion.div
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-            className="hero-kinetic flex flex-col gap-2 mt-2"
-          >
-            <div className="overflow-hidden">
-              <motion.div
-                variants={slideUpVariants}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-                className="font-serif font-normal text-[clamp(44px,6vw,76px)] leading-[1.02] tracking-[-0.01em] text-fg mix-blend-difference"
-              >
-                Design that reads like strategy.
-              </motion.div>
-            </div>
-            <div className="overflow-hidden">
-              <motion.div
-                variants={slideUpVariants}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-                className="font-serif font-normal text-[clamp(44px,6vw,76px)] leading-[1.02] tracking-[-0.01em] text-fg mix-blend-difference"
-              >
-                Looks like restraint.
-              </motion.div>
-            </div>
-            <div className="overflow-hidden">
-              <motion.div
-                variants={slideUpVariants}
-                transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-                className="font-serif font-normal text-[clamp(44px,6vw,76px)] leading-[1.02] tracking-[-0.01em] text-fg mix-blend-difference"
-              >
-                Ships like product.
-              </motion.div>
-            </div>
-          </motion.div>
+          <div className="hero-kinetic reveal" data-hero-kinetic ref={kineticRef}>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Design that reads like strategy.</div>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Looks like restraint.</div>
+            <div className="hero-line hero-title-interactive font-normal" data-line>Ships like product.</div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
-            className="mt-6"
-          >
-            <p className="max-w-[58ch] text-muted text-lg leading-relaxed mix-blend-difference">
-              We build brand systems and digital experiences for teams with long timelines.
-            </p>
-          </motion.div>
+          <p className="hero-sub reveal mt-4 max-w-[58ch] text-muted text-lg leading-relaxed">
+            We build brand systems and digital experiences for teams with long timelines.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
-            className="hero-actions mt-10 flex items-center gap-6 mix-blend-difference"
-          >
-            <DiamondButton href="#contact">
-              <span className="text-sm tracking-wide">Start a project</span>
-            </DiamondButton>
-
-            <a className="text-fg/80 border-b border-fg/25 pb-0.5 hover:text-fg transition-opacity text-sm" href="#work">
+          <div className="hero-actions reveal mt-7 flex items-center gap-4">
+            <a
+              ref={btnRef as React.RefObject<HTMLAnchorElement>}
+              className="btn touch-bloom font-medium"
+              href="#contact"
+            >
+              <span>Start a project</span>
+            </a>
+            <a className="text-fg/80 border-b border-fg/25 pb-0.5 hover:text-fg transition-opacity ml-2" href="#work">
               View selected work
             </a>
-          </motion.div>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.2 }}
-            className="micro mt-10 text-fg/55 text-[13px] mix-blend-difference"
-          >
+          <p className="micro reveal mt-7 text-fg/55 text-[13px]">
             Brand Systems • Digital Products • Campaign Direction • Motion & 3D
-          </motion.p>
+          </p>
         </div>
       </div>
     </section>

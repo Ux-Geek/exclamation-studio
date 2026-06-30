@@ -1,74 +1,71 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X } from 'lucide-react';
+import type { Project } from './WorkGrid';
 
 interface CaseStudyProps {
-    project: any;
-    onClose: () => void;
+  project: Project;
+  onClose: () => void;
 }
 
 export const CaseStudy: React.FC<CaseStudyProps> = ({ project, onClose }) => {
-    // Lock body scroll when overlay is open
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        return () => { document.body.style.overflow = ''; };
-    }, []);
+  // Lock body scroll when overlay is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [onClose]);
 
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-12 overflow-y-auto bg-bg/80 backdrop-blur-sm"
-            onClick={onClose}
-        >
-            <motion.div
-                layoutId={`project-${project.id}`}
-                className="relative w-full max-w-[1000px] min-h-[80vh] bg-[#111216] border border-stroke rounded-3xl overflow-hidden flex flex-col my-auto origin-center mt-20 md:mt-auto"
-                onClick={(e) => e.stopPropagation()}
-            >
-                <button
-                    className="absolute top-6 right-6 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-fg/[0.05] hover:bg-fg/10 text-fg transition-colors"
-                    onClick={onClose}
-                    aria-label="Close case study"
-                >
-                    <X size={20} />
-                </button>
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="case-study-overlay"
+      onClick={onClose}
+    >
+      <button
+        className="case-study-close"
+        onClick={onClose}
+        aria-label="Close case study"
+      >
+        <X size={18} />
+      </button>
 
-                <div className="p-8 md:p-16 border-b border-stroke flex-1">
-                    <motion.div layoutId={`meta-${project.id}`} className="text-muted tracking-[0.1em] uppercase text-xs mb-4">
-                        {project.meta}
-                    </motion.div>
-                    <motion.h2 layoutId={`title-${project.id}`} className="text-[clamp(32px,5vw,64px)] font-normal tracking-tight mb-8">
-                        {project.title}
-                    </motion.h2>
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 20, opacity: 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="case-study-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="case-study-hero">
+          <img src={project.image} alt={project.title} />
+        </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                        className="prose prose-invert max-w-none text-muted text-lg leading-relaxed space-y-6"
-                    >
-                        <p>
-                            This is a placeholder for the case study deep dive. It demonstrates the seamless transition
-                            from the index list into an immersive reading environment.
-                        </p>
-                        <p>
-                            Restraint is a strategy. Here we would break down the strategic insights, the design system,
-                            and the final application of the brand across digital and physical touchpoints.
-                        </p>
-                    </motion.div>
-                </div>
+        <div className="case-study-content">
+          <div className="case-study-meta">{project.meta}</div>
+          <h2 className="case-study-title">{project.title}</h2>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="bg-fg/[0.02] p-8 md:p-16 aspect-video flex-shrink-0 flex items-center justify-center text-muted"
-                >
-                    [ Featured Media / Images ]
-                </motion.div>
-            </motion.div>
-        </motion.div>
-    );
+          <div className="case-study-body">
+            <p>{project.description}</p>
+          </div>
+
+          <div className="case-study-tags">
+            {project.tags.map((tag, i) => (
+              <span key={i} className="case-study-tag">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -17,25 +17,13 @@ export const useReveal = () => {
       gsap.to(el, {
         opacity: 1,
         y: 0,
-        duration: 0.7,
+        duration: 0.8,
         ease: "power2.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 85%",
+          start: "top 88%",
         }
       });
-    });
-
-    // Subtle parallax for background
-    gsap.to("#bg3d", {
-      opacity: 0.25,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "main",
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true
-      }
     });
 
     return () => {

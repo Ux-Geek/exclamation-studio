@@ -1,44 +1,52 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
 
+  const moveCursor = useCallback((e: MouseEvent) => {
+    if (cursorRef.current) {
+      cursorRef.current.style.transform = `translate(${e.clientX - 7}px, ${e.clientY - 7}px)`;
+    }
+  }, []);
+
   useEffect(() => {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion || !cursorRef.current) return;
+    const isMobile = window.innerWidth < 768;
+    if (reduceMotion || isMobile || !cursorRef.current) return;
 
-    const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      }
-    };
+    window.addEventListener('mousemove', moveCursor, { passive: true });
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const hoverIn = () => setIsHovering(true);
+    const hoverOut = () => setIsHovering(false);
 
-    window.addEventListener('mousemove', moveCursor);
+    const observer = new MutationObserver(() => {
+      const hoverables = document.querySelectorAll("a, button, .work-card, input, textarea, select");
+      hoverables.forEach(el => {
+        el.addEventListener("mouseenter", hoverIn);
+        el.addEventListener("mouseleave", hoverOut);
+      });
+    });
 
-    const hoverables = document.querySelectorAll("a, button, .card, .work-item, input, textarea, select");
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Initial bind
+    const hoverables = document.querySelectorAll("a, button, .work-card, input, textarea, select");
     hoverables.forEach(el => {
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
+      el.addEventListener("mouseenter", hoverIn);
+      el.addEventListener("mouseleave", hoverOut);
     });
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
-      hoverables.forEach(el => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      });
+      observer.disconnect();
     };
-  }, []);
+  }, [moveCursor]);
 
   return (
-    <div 
+    <div
       ref={cursorRef}
-      className={`fixed top-0 left-0 pointer-events-none z-[100] rounded-full border border-fg/35 -translate-x-1/2 -translate-y-1/2 transition-[width,height,border-color] duration-200 ease-out hidden md:block
-        ${isHovering ? 'w-9 h-9 border-fg/55' : 'w-[18px] h-[18px]'}`}
+      className={`custom-cursor hidden md:block ${isHovering ? 'is-hovering' : ''}`}
       aria-hidden="true"
     />
   );

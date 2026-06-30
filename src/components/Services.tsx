@@ -1,50 +1,57 @@
 import React from 'react';
+import { Layers, Lightbulb, Box, Monitor, Component, Rocket } from 'lucide-react';
 
 const services = [
   {
-    title: "Brand Identity",
-    description: "Naming, logo design, typography systems, color palettes, and comprehensive brand guidelines.",
+    title: "Brand Strategy",
+    description: "Positioning, messaging, and narrative frameworks that set you apart.",
+    icon: <Lightbulb size={28} />
   },
   {
-    title: "Visual Systems",
-    description: "Design systems, component libraries, asset frameworks, and modular visual kits for scalable brands.",
-  },
-  {
-    title: "Creative Direction",
-    description: "Visual language, campaign art direction, photography direction, and establishing cohesive brand expression.",
+    title: "Visual Identity",
+    description: "Logo design, typography, and cohesive visual systems.",
+    icon: <Layers size={28} />
   },
   {
     title: "Digital Design",
-    description: "Websites, product UI, responsive design systems, and digital-first brand experiences.",
+    description: "Websites and product UI with a focus on polished interactions.",
+    icon: <Monitor size={28} />
+  },
+  {
+    title: "Design Systems",
+    description: "Component libraries and asset frameworks for scalable brands.",
+    icon: <Component size={28} />
   },
   {
     title: "Motion & 3D",
-    description: "Brand motion language, micro-animations, interactive experiences, and dimensional brand worlds.",
+    description: "Brand motion language and dimensional brand worlds.",
+    icon: <Box size={28} />
   },
   {
-    title: "Launch Strategy",
-    description: "Go-to-market rollout kits, conversion-focused landing pages, and content system templates.",
+    title: "Go-to-Market",
+    description: "Launch kits, landing pages, and content systems.",
+    icon: <Rocket size={28} />
   }
 ];
 
 export const Services: React.FC = () => {
   return (
     <section className="services-section" id="services">
-      <div className="services-inner">
-        <div className="services-header reveal">
-          <h2>Services</h2>
-          <p>From positioning to execution — everything built to stay coherent as you grow.</p>
-        </div>
+      <div className="services-header reveal">
+        <h2>How We Help</h2>
+        <p>From positioning to execution — everything built to stay coherent as you grow.</p>
+      </div>
 
-        <div className="services-grid">
-          {services.map((service, i) => (
-            <div key={i} className="service-card reveal" style={{ transitionDelay: `${i * 0.05}s` }}>
-              <span className="service-number">0{i + 1}</span>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
+      <div className="services-grid">
+        {services.map((service, i) => (
+          <div key={i} className="service-card reveal" style={{ transitionDelay: `${i * 0.05}s` }}>
+            <div className="service-icon-wrap">
+              {service.icon}
             </div>
-          ))}
-        </div>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
-    company: '',
+    email: '',
     budget: '',
-    timeline: '',
     message: ''
   });
 
@@ -16,19 +16,10 @@ export const Contact: React.FC = () => {
   return (
     <section className="contact-section" id="contact">
       <div className="contact-inner">
-        <div className="contact-left">
-          <p className="about-label reveal">Availability</p>
-          <h2 className="reveal">Let's build<br />something together.</h2>
-          <p className="reveal">
-            We take on a small number of projects at a time. 
-            If you're building for the long term, we'd love to hear from you.
-          </p>
-          <a href="mailto:hello@exclamationstudios.com" className="contact-email reveal">
-            <span>hello@exclamationstudios.com</span>
-            <span className="arrow">→</span>
-          </a>
-          <p className="reveal" style={{ marginTop: '16px', fontSize: '13px', color: 'var(--color-muted)' }}>
-            Response within 48 hours. No decks. No theatre.
+        <div className="contact-left reveal">
+          <h2>Get a free<br />project check-up</h2>
+          <p>
+            Whether it's branding, UI/UX, or development, we transform ideas into flawless digital solutions.
           </p>
         </div>
 
@@ -38,41 +29,34 @@ export const Contact: React.FC = () => {
               <input
                 type="text"
                 name="name"
-                placeholder="Your name"
+                placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
               />
               <input
-                type="text"
-                name="company"
-                placeholder="Company / Role"
-                value={formData.company}
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
                 onChange={handleChange}
               />
             </div>
-            <div className="form-row">
+            <div className="form-row" style={{ gridTemplateColumns: '1fr' }}>
               <select name="budget" value={formData.budget} onChange={handleChange}>
-                <option value="">Budget range</option>
-                <option value="2k-5k">£2k – £5k</option>
-                <option value="5k-15k">£5k – £15k</option>
-                <option value="15k+">£15k+</option>
-              </select>
-              <select name="timeline" value={formData.timeline} onChange={handleChange}>
-                <option value="">Timeline</option>
-                <option value="2-4w">2–4 weeks</option>
-                <option value="4-8w">4–8 weeks</option>
-                <option value="8w+">8+ weeks</option>
+                <option value="">Select a budget range...</option>
+                <option value="2k-5k">$2,500 - $5,000</option>
+                <option value="5k-15k">$5,000 - $15,000</option>
+                <option value="15k+">$15,000+</option>
               </select>
             </div>
             <textarea
               name="message"
-              placeholder="Tell us about your project..."
+              placeholder="Tell us about your project goals..."
               value={formData.message}
               onChange={handleChange}
             />
             <button type="submit" className="btn-submit">
-              <span>Send inquiry</span>
-              <span>→</span>
+              Submit Request
             </button>
           </form>
         </div>

@@ -19,20 +19,15 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Grain overlay */}
-      <div className="grain" aria-hidden="true" />
-
-      {/* Custom cursor */}
       <CustomCursor />
-
       <Navbar />
 
       <main className="relative z-10">
         <Hero />
         <WorkGrid onOpenProject={setActiveProject} />
-        <About />
         <Services />
         <Resources />
+        <About />
         <Contact />
       </main>
 
@@ -43,29 +38,24 @@ export default function App() {
       </AnimatePresence>
 
       <footer className="footer-stage" id="footer">
+        <div className="footer-glow"></div>
         <div className="footer-stage-inner">
           <div className="footer-big">
-            <div className="footer-big-line">
-              <span className="footer-word">EXCLAMATION</span>
-            </div>
-            <div className="footer-big-line">
-              <span className="footer-word">STUDIO</span>
-              <span className="footer-punct">
-                <img src={logoIcon} alt="!" className="h-[1.6em] w-auto inline-block -mt-6 -ml-4" style={{ filter: 'brightness(0.3)' }} />
-              </span>
-            </div>
+            EXCLAMATION
           </div>
 
           <div className="footer-actions">
-            <a className="footer-link" href="#work">Work</a>
-            <a className="footer-link" href="#about">About</a>
-            <a className="footer-link" href="#services">Services</a>
-            <a className="footer-link" href="mailto:hello@exclamationstudios.com">Email</a>
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="mailto:hello@exclamationstudios.com">Contact</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
           </div>
 
           <div className="footer-meta">
             <span>© {new Date().getFullYear()} Exclamation Studio</span>
-            <span>Brand identity for ambitious brands.</span>
+            <span>Design that endures.</span>
           </div>
         </div>
       </footer>

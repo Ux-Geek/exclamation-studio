@@ -20,47 +20,33 @@ export const Hero: React.FC = () => {
         delay: 0.2
       }
     );
-
-    // Scroll hint fade on scroll
-    const hint = heroRef.current.querySelector('.hero-scroll-hint');
-    if (hint) {
-      const handleScroll = () => {
-        const scrollY = window.scrollY;
-        (hint as HTMLElement).style.opacity = `${Math.max(0, 1 - scrollY / 200)}`;
-      };
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      return () => window.removeEventListener('scroll', handleScroll);
-    }
   }, []);
 
   return (
-    <section ref={heroRef} className="hero-section relative" id="hero">
+    <section ref={heroRef} className="hero-section" id="hero">
+      <div className="hero-glow"></div>
+      
       <div className="hero-inner">
-        <p className="hero-eyebrow hero-reveal" style={{ opacity: 0 }}>
-          Branding Studio
-        </p>
+        <div className="hero-eyebrow hero-reveal" style={{ opacity: 0 }}>
+          Branding & Product Design Studio
+        </div>
 
         <h1 className="hero-title hero-reveal" style={{ opacity: 0 }}>
-          Brand identity for <em>bold,</em><br />
-          ambitious brands.
+          Strategy that ships.<br />
+          <span className="text-gradient">Design that endures.</span>
         </h1>
 
         <p className="hero-sub hero-reveal" style={{ opacity: 0 }}>
-          We specialise in brand identity, visual expression, and creative 
-          direction — building systems that scale with your ambition.
+          We transform ideas into flawless digital solutions. From crafting unique icons 
+          to developing complete brand systems and web applications, we bring your vision to life.
         </p>
 
-        <div className="hero-services hero-reveal" style={{ opacity: 0 }}>
-          <span>Brand Identity</span>
-          <span>Visual Systems</span>
-          <span>Creative Direction</span>
-          <span>Digital Design</span>
+        <div className="hero-reveal" style={{ opacity: 0 }}>
+          <a href="#contact" className="hero-cta">
+            Start a project
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
-      </div>
-
-      <div className="hero-scroll-hint">
-        <div className="scroll-line"></div>
-        <span>Scroll</span>
       </div>
     </section>
   );

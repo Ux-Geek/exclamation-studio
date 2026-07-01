@@ -1,7 +1,6 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-
-// Import project images
+import React, { useRef, useState } from 'react';
+import { motion } from 'motion/react';
+import { ArrowUpRight } from 'lucide-react';
 import projectBante from '../assets/project-bante.png';
 import projectMonument from '../assets/project-monument.png';
 import projectMadesongs from '../assets/project-madesongs.png';
@@ -14,7 +13,6 @@ export interface Project {
   meta: string;
   category: string;
   image: string;
-  featured?: boolean;
   description: string;
   tags: string[];
 }
@@ -26,7 +24,6 @@ export const projects: Project[] = [
     meta: "Brand Identity / Restaurant",
     category: "Brand Identity",
     image: projectBante,
-    featured: true,
     description: "Full brand identity system for an upscale West African-inspired grill and cuisine experience. From logo design through menu systems, stationery, and environmental graphics — built around warmth, heritage, and modern refinement.",
     tags: ["Logo Design", "Brand System", "Menu Design", "Stationery", "Art Direction"]
   },
@@ -68,6 +65,69 @@ export const projects: Project[] = [
   }
 ];
 
+const WorkCard = ({ project, index, onOpenProject }: { project: Project, index: number, onOpenProject: (p: Project) => void }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // For mouse tracking glow via CSS variables
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+
+    // For image parallax
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    setMousePos({ x: (x - centerX) / centerX, y: (y - centerY) / centerY });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 });
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      layoutId={`project-card-${project.id}`}
+      className="work-card reveal"
+      onClick={() => onOpenProject(project)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transitionDelay: `${index * 0.05}s` }}
+    >
+      <div className="work-card-image-wrapper">
+        <motion.img
+          src={project.image}
+          alt={project.title}
+          className="work-card-image"
+          loading={index > 1 ? "lazy" : "eager"}
+          animate={{
+            x: mousePos.x * -15,
+            y: mousePos.y * -15,
+          }}
+          transition={{ type: "spring", stiffness: 150, damping: 20 }}
+        />
+      </div>
+      
+      <div className="work-card-info">
+        <div className="flex justify-between items-start">
+          <div>
+            <div className="work-card-title">{project.title}</div>
+            <div className="work-card-meta">{project.meta}</div>
+          </div>
+          <div className="bg-white text-black p-2 rounded-full shadow-sm">
+            <ArrowUpRight size={20} />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 interface WorkGridProps {
   onOpenProject: (project: Project) => void;
 }
@@ -82,24 +142,12 @@ export const WorkGrid: React.FC<WorkGridProps> = ({ onOpenProject }) => {
 
       <div className="work-grid">
         {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            layoutId={`project-card-${project.id}`}
-            className={`work-card reveal ${project.featured ? 'featured' : ''}`}
-            onClick={() => onOpenProject(project)}
-            style={{ transitionDelay: `${index * 0.05}s` }}
-          >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="work-card-image"
-              loading={index > 1 ? "lazy" : "eager"}
-            />
-            <div className="work-card-info">
-              <div className="work-card-title">{project.title}</div>
-              <div className="work-card-meta">{project.meta}</div>
-            </div>
-          </motion.div>
+          <WorkCard 
+            key={project.id} 
+            project={project} 
+            index={index} 
+            onOpenProject={onOpenProject} 
+          />
         ))}
       </div>
     </section>

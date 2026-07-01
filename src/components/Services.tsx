@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Layers, Lightbulb, Box, Monitor, Component, Rocket } from 'lucide-react';
 
 const services = [
@@ -34,6 +34,35 @@ const services = [
   }
 ];
 
+const ServiceCard = ({ service, index }: { service: any, index: number }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+    cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+  };
+
+  return (
+    <div 
+      ref={cardRef}
+      className="service-card reveal" 
+      style={{ transitionDelay: `${index * 0.05}s` }}
+      onMouseMove={handleMouseMove}
+    >
+      <div className="service-icon-wrap">
+        {service.icon}
+      </div>
+      <h3>{service.title}</h3>
+      <p>{service.description}</p>
+    </div>
+  );
+};
+
 export const Services: React.FC = () => {
   return (
     <section className="services-section" id="services">
@@ -44,13 +73,7 @@ export const Services: React.FC = () => {
 
       <div className="services-grid">
         {services.map((service, i) => (
-          <div key={i} className="service-card reveal" style={{ transitionDelay: `${i * 0.05}s` }}>
-            <div className="service-icon-wrap">
-              {service.icon}
-            </div>
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
-          </div>
+          <ServiceCard key={i} service={service} index={i} />
         ))}
       </div>
     </section>

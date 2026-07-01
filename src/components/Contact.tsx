@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Magnetic } from './Magnetic';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,9 +8,20 @@ export const Contact: React.FC = () => {
     budget: '',
     message: ''
   });
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLFormElement>) => {
+    if (!formRef.current) return;
+    const rect = formRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    formRef.current.style.setProperty('--mouse-x', `${x}px`);
+    formRef.current.style.setProperty('--mouse-y', `${y}px`);
   };
 
   return (
@@ -24,7 +35,12 @@ export const Contact: React.FC = () => {
         </div>
 
         <div className="reveal">
-          <form className="intake-form" onSubmit={(e) => e.preventDefault()}>
+          <form 
+            ref={formRef}
+            className="intake-form glow-card" 
+            onSubmit={(e) => e.preventDefault()}
+            onMouseMove={handleMouseMove}
+          >
             <div className="form-row">
               <input
                 type="text"
@@ -55,9 +71,14 @@ export const Contact: React.FC = () => {
               value={formData.message}
               onChange={handleChange}
             />
-            <button type="submit" className="btn-submit">
-              Submit Request
-            </button>
+            
+            <div className="text-center md:text-left mt-4">
+              <Magnetic>
+                <button type="submit" className="btn-submit" style={{ padding: '18px 48px', width: 'auto' }}>
+                  Submit Request
+                </button>
+              </Magnetic>
+            </div>
           </form>
         </div>
       </div>
